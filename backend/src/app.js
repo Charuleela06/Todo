@@ -51,7 +51,10 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('dev'));
-
+app.use(cors({
+  origin: ['http://localhost:5173', 'https://your-frontend-url.vercel.app'],
+  credentials: true
+}));
 app.get('/', (req, res) => {
   res.json({ ok: true, name: 'Todo Backend', version: '1.0.0' });
 });
