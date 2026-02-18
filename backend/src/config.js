@@ -21,7 +21,7 @@ export const config = {
     secure: process.env.SMTP_SECURE === 'true',
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
-    from: process.env.EMAIL_FROM || 'Todo App <no-reply@example.com>'
+    from: process.env.EMAIL_FROM || 'Todo App <charuleelas.23it@kongu.edu>'
   },
   twilio: {
     sid: process.env.TWILIO_ACCOUNT_SID,
