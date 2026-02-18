@@ -52,9 +52,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://your-frontend-url.vercel.app'],
+  origin: ['https://todo-psi-ten-95.vercel.app', 'http://localhost:5173'],
   credentials: true
 }));
+app.options("*", cors());
 app.get('/', (req, res) => {
   res.json({ ok: true, name: 'Todo Backend', version: '1.0.0' });
 });
