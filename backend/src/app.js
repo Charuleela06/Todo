@@ -12,47 +12,23 @@ import userRoutes from './routes/users.js';
 import adminRoutes from './routes/admin.js';
 import notificationRoutes from './routes/notifications.js';
 import templateRoutes from './routes/templates.js';
-
 import { startSchedulers } from './jobs/scheduler.js';
 
 const app = express();
 
-/* -------------------- CORS SETUP -------------------- */
+/* -------------------- CORS (SIMPLE & SAFE) -------------------- */
 
-// Normalize URL (remove trailing slash)
-const normalize = (u) => (u ? u.replace(/\/$/, '') : u);
+app.use(cors({
+  origin: [
+    "https://todo-psi-ten-95.vercel.app",
+    "http://localhost:5173"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true
+}));
 
-// Build allowed origins list
-const allowedOrigins = (
-  Array.isArray(config.clientUrls) && config.clientUrls.length > 0
-    ? config.clientUrls
-    : [config.clientUrl]
-)
-  .filter(Boolean)
-  .map(normalize);
-
-console.log('[CORS] Allowed origins:', allowedOrigins);
-
-const corsOptions = {
-  credentials: true,
-  origin: (origin, callback) => {
-    // Allow requests with no origin (Postman, curl, etc.)
-    if (!origin) return callback(null, true);
-
-    const normalizedOrigin = normalize(origin);
-
-    if (allowedOrigins.includes(normalizedOrigin)) {
-      return callback(null, true);
-    }
-
-    console.warn('[CORS] Blocked origin:', origin);
-    return callback(new Error(`Not allowed by CORS: ${origin}`));
-  }
-};
-
-// Apply CORS middleware
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+// Handle all preflight requests
+app.options('*', cors());
 
 /* -------------------- MIDDLEWARE -------------------- */
 
